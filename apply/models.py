@@ -10,6 +10,10 @@ class personal_Info(models.Model):
         (1, "Dual Citizenship by birth"),
         (2, "Dual Citizenship by naturalization")
     );
+    sex_type = (
+        (0, "Male"),
+        (1, "Female")
+    );
     pi_pk = models.AutoField(primary_key=True)
     sur_name = models.CharField(max_length=75)
     first_name = models.CharField(max_length=75)
@@ -17,7 +21,7 @@ class personal_Info(models.Model):
     name_ext = models.CharField(max_length=20, null=True, blank=True)
     date_of_birth = models.DateField()
     pace_of_birth = models.CharField(max_length=100)
-    sex = models.CharField(max_length=10)
+    sex = models.CharField(choices=sex_type, max_length=10)
     civil_status = models.CharField(max_length=15)
     height = models.IntegerField()
     weight = models.IntegerField()
@@ -190,3 +194,30 @@ class issued_Govt(models.Model):
     id_no = models.IntegerField()
     date_place_of_issuance = models.CharField(max_length=100)
     pass
+
+
+class refprovince(models.Model):
+    id = models.AutoField(primary_key=True)
+    psgcCode = models.CharField(max_length=255)
+    provDesc = models.TextField()
+    regCode = models.CharField(max_length=255)
+    provCode = models.CharField(max_length=255)
+    pass
+
+class refcitymun(models.Model):
+    id = models.AutoField(primary_key=True)
+    psgcCode = models.CharField(max_length=255)
+    citymunDesc = models.TextField()
+    provCode = models.CharField(max_length=255)
+    citymunCode = models.CharField(max_length=255)
+    pass
+
+class refbrgy(models.Model):
+    id = models.AutoField(primary_key=True)
+    psgcCode = models.CharField(max_length=255)
+    regCode = models.CharField(max_length=255)
+    citymunDesc = models.TextField()
+    provCode = models.CharField(max_length=255)
+    citymunCode = models.CharField(max_length=255)
+    pass
+
