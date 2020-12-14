@@ -1,0 +1,181 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+.form-container{
+}
+
+.btn-box{
+    width: 100%;
+    margin: 30px auto;
+    text-align: center;
+}
+.next-btn{
+    width: 110px;
+    height: 50px;
+    margin: 0 10px;
+    background: linear-gradient(to right, #57A741, #23FF37);
+    border-radius: 30px;
+    border: 0;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+
+}
+
+#family-form{
+
+}
+#educform{
+    left: 1050px;
+}
+#civil{
+    left: 1050px;
+}
+
+#workform{
+    left: 1050px;
+}
+#volworkform{
+    left: 1050px;
+}
+#learningform{
+    left: 1050px;
+}
+#othersform{
+    left: 1050px;
+}
+#questionsform{
+    left: 1050px;
+}
+#referenceform{
+    left: 1050px;
+}
+#confirmationform{
+    left: 1050px;
+}
+.step-row{
+    width: 1000px;
+    height: 40px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 -1px 5px -1px #000;
+    position: relative;
+}
+.step-col{
+    width: 100px;
+    text-align: center;
+    color: #333;
+    position: relative;
+}
+#progress{
+    position: absolute;
+    height: 100%;
+    width: 100px;
+    background: linear-gradient(to right, #57A741, #23FF37);
+
+}
+#progress::after{
+    content: '';
+    height: 0;
+    width: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    position: absolute;
+    right: -20px;
+    top: 0;
+    border-left: 20px solid #23FF37;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-item-left {
+  padding: 5px;
+  flex: 50%;
+}
+
+.flex-item-right {
+  padding: 5px;
+  flex: 50%;
+}
+
+@media screen and (max-width: 600px){
+  .contact-form{
+    flex-direction: column;
+  }
+  .input-fields,
+  .secondrow{
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .flex-item-right, .flex-item-left {
+    flex: 100%;
+  }
+}
+.wrapper {
+  background-color: #ffff;
+  width: 100%;
+  height: 1050px;
+  border-style: groove;
+  margin: 0 auto;
+  max-height: 3000px;
+  max-width: 1000px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin: 0 auto;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+.wrapper form{
+  height: auto!important;
+    top: 100px;
+    left: 40px;
+    position: absolute;
+    transition: 0.5s;
+}
+form input{
+    display: inline;
+    width: 95%;
+    padding: 10px 5px;
+    margin: 5px 0;
+    border: 0;
+    height: 15px;
+    border-bottom: 1px solid #999;
+    background: transparent;
+    outline: none;
+    }
+.form-control{
+    width: 95%;
+}
+.wrapper--w960 {
+  max-width: 960px;
+}
+
+.wrapper--w780 {
+  max-width: 780px;
+}
+.redlabel{
+color:red
+}
+.input-fields,
+.secondrow{
+  width: 100%;
+}
+.contact-form{
+  display: flex;
+}
+.wrapper .title h4{
+  text-align: left;
+  margin-bottom: 10px;
+}
+.input-fields{
+  display: flex;
+  flex-direction: column;
+  margin-right: 4%;
+}

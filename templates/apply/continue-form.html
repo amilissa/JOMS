@@ -1,0 +1,544 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'c_form.css' %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+<!-- multistep form -->
+<div class="wrapper">
+    <form id="family-form">
+        <h3>II. FAMILY BACKGROUND </h3>
+
+<small>user id = {{ pi_pk }}</small>
+
+        <div class="contact-form">
+            <div class="input-fields">
+
+                <div class="form-group">
+                    <label>SPOUSE'S SURNAME:</label>
+                    <span class="redlabel" id="spouse_sur_name_error_message"></span>
+                    <input type="text" class="" id="spouse_sur_name" name="spouse_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="spouse_first_name_error_message"></span>
+                    <input type="text" class="" id="spouse_first_name" name="spouse_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="spouse_middle_name_error_message"></span>
+                    <input type="text" class="" id="spouse_middle_name" name="spouse_middle_name">
+                </div>
+                <div class="flex-container">
+                    <div class="flex-item-left">
+                        <label>NAME EXTENSION:</label>
+                        <span class="redlabel" id="spouse_name_ext_error_message"></span>
+                        <select class="form-control" name="spouse_name_ext" id="spouse_name_ext">
+                            <option value=""></option>
+                            <option value="0">Jr.</option>
+                            <option value="1">Sr.</option>
+                            <option value="2">I</option>
+                            <option value="3">II</option>
+                            <option value="4">III</option>
+                            <option value="5">IV</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-right">
+                        <label class="redlabel"><b>*</b></label><label>OCCUPATION:</label>
+                        <span class="redlabel" id="pace_of_birth_error_message"></span>
+                        <input type="text" class="" id="occupation" name="occupation">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>EMPLOYER/BUSINESS NAME:</label>
+                    <span class="redlabel" id="business_name_error_message"></span>
+                    <input type="text" class="" id="business_name" name="business_name">
+                </div>
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>BUSINESS ADDRESS:</label>
+                    <span class="redlabel" id="business_address_error_message"></span>
+                    <input type="text" class="" id="business_address" name="business_address">
+                </div>
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>TELEPHONE NO.:</label>
+                    <span class="redlabel" id="spouse_telephone_error_message"></span>
+                    <input type="text" class="" id="spouse_telephone" name="spouse_telephone">
+                </div>
+
+            </div>
+            <div class="secondrow">
+                <div class="form-group">
+                    <label>FATHER'S SURNAME:</label>
+                    <span class="redlabel" id="father_sur_name_error_message"></span>
+                    <input type="text" class="" id="father_sur_name" name="father_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="father_first_name_error_message"></span>
+                    <input type="text" class="" id="father_first_name" name="father_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="father_middle_name_error_message"></span>
+                    <input type="text" class="" id="father_middle_name" name="father_middle_name">
+                    <label>NAME EXTENSION:</label>
+                    <span class="redlabel" id="father_name_ext_error_message"></span>
+                    <select class="form-control" name="father_name_ext" id="father_name_ext">
+                        <option value=""></option>
+                        <option value="0">Jr.</option>
+                        <option value="1">Sr.</option>
+                        <option value="2">I</option>
+                        <option value="3">II</option>
+                        <option value="4">III</option>
+                        <option value="5">IV</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>MOTHER'S SURNAME:</label>
+                    <span class="redlabel" id="mother_sur_name_error_message"></span>
+                    <input type="text" class="" id="mother_sur_name" name="mother_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="mother_first_name_error_message"></span>
+                    <input type="text" class="" id="mother_first_name" name="mother_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="mother_middle_name_error_message"></span>
+                    <input type="text" class="" id="mother_middle_name" name="mother_middle_name">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <div class="table-wrapper">
+
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4>CHILDREN LIST</h4>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+                                <span>Add Child</span></a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="#deleteEmployeeModal" class="btn btn-danger"
+                               data-toggle="modal">Delete</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+               <span class="custom-checkbox">
+                <input type="checkbox" id="selectAll">
+                <label for="selectAll"></label>
+               </span>
+                        </th>
+                        <th>Name of Children</th>
+                        <th>Date of Birth</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="addEmployeeModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>FULL NAME</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>DATE OF BIRTH:</label>
+                                    <input type="date" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="button" class="form-control" value="ADD">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Edit Modal HTML -->
+            <div id="editEmployeeModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <textarea class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-default" data-dismiss="modal"
+                                       value="Cancel">
+                                <input type="submit" class="btn btn-info" value="Save">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Delete Modal HTML -->
+            <div id="deleteEmployeeModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete these Records?</p>
+                                <p class="text-warning"><small>This action cannot be undone.</small></p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-default" data-dismiss="modal"
+                                       value="Cancel">
+                                <input type="submit" class="btn btn-danger" value="Delete">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-box">
+                <input type="button" name="next" id="next" class="next-btn" value="Next">
+            </div>
+        </div>
+    </form>
+
+
+    <form id="educform">
+        <h3>III. EDUCATIONAL BACKGROUND</h3>
+        <div class="contact-form">
+            <div class="input-fields">
+
+                <div class="form-group">
+                    <label>SPOUSE'S SURNAME:</label>
+                    <span class="redlabel" id="1spouse_sur_name_error_message"></span>
+                    <input type="text" class="" id="1spouse_sur_name" name="spouse_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="1spouse_first_name_error_message"></span>
+                    <input type="text" class="" id="1spouse_first_name" name="spouse_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="1spouse_middle_name_error_message"></span>
+                    <input type="text" class="" id="1spouse_middle_name" name="spouse_middle_name">
+                </div>
+                <div class="flex-container">
+                    <div class="flex-item-left">
+                        <label>NAME EXTENSION:</label>
+                        <span class="redlabel" id="1spouse_name_ext_error_message"></span>
+                        <select class="form-control" name="spouse_name_ext" id="1spouse_name_ext">
+                            <option value=""></option>
+                            <option value="0">Jr.</option>
+                            <option value="1">Sr.</option>
+                            <option value="2">I</option>
+                            <option value="3">II</option>
+                            <option value="4">III</option>
+                            <option value="5">IV</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-right">
+                        <label class="redlabel"><b>*</b></label><label>OCCUPATION:</label>
+                        <span class="redlabel" id="1pace_of_birth_error_message"></span>
+                        <input type="text" class="" id="1occupation" name="occupation">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>EMPLOYER/BUSINESS NAME:</label>
+                    <span class="redlabel" id="1business_name_error_message"></span>
+                    <input type="text" class="" id="1business_name" name="business_name">
+                </div>
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>BUSINESS ADDRESS:</label>
+                    <span class="redlabel" id="1business_address_error_message"></span>
+                    <input type="text" class="" id="1business_address" name="business_address">
+                </div>
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>TELEPHONE NO.:</label>
+                    <span class="redlabel" id="1spouse_telephone_error_message"></span>
+                    <input type="text" class="" id="1spouse_telephone" name="spouse_telephone">
+                </div>
+                <div class="form-group">
+                    <label>FATHER'S SURNAME:</label>
+                    <span class="redlabel" id="1father_sur_name_error_message"></span>
+                    <input type="text" class="" id="1father_sur_name" name="father_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="1father_first_name_error_message"></span>
+                    <input type="text" class="" id="1father_first_name" name="father_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="1father_middle_name_error_message"></span>
+                    <input type="text" class="" id="1father_middle_name" name="father_middle_name">
+                    <label>NAME EXTENSION:</label>
+                    <span class="redlabel" id="1father_name_ext_error_message"></span>
+                    <select class="form-control" name="father_name_ext" id="1father_name_ext">
+                        <option value=""></option>
+                        <option value="0">Jr.</option>
+                        <option value="1">Sr.</option>
+                        <option value="2">I</option>
+                        <option value="3">II</option>
+                        <option value="4">III</option>
+                        <option value="5">IV</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <div class="secondrow">
+                <div class="form-group">
+                    <label>MOTHER'S SURNAME:</label>
+                    <span class="redlabel" id="1mother_sur_name_error_message"></span>
+                    <input type="text" class="" id="1mother_sur_name" name="mother_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="1mother_first_name_error_message"></span>
+                    <input type="text" class="" id="1mother_first_name" name="mother_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="1mother_middle_name_error_message1"></span>
+                    <input type="text" class="" id="1mother_middle_name" name="mother_middle_name">
+                </div>
+                <div class="flex-container">
+
+                </div>
+            </div>
+        </div>
+        <div class="btn-box">
+            <input type="button" name="back1" id="back1" class="next-btn" value="Back">
+            <input type="button" name="next1" id="next1" class="next-btn" value="Next">
+        </div>
+    </form>
+    <form id="civil">
+        <h3>IV. CIVIL SERVICE ELIGIBILITY</h3>
+        <div class="contact-form">
+            <div class="input-fields">
+
+                <div class="form-group">
+                    <label>SPOUSE'S SURNAME:</label>
+                    <span class="redlabel" id="2spouse_sur_name_error_message"></span>
+                    <input type="text" class="" id="2spouse_sur_name" name="spouse_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="2spouse_first_name_error_message"></span>
+                    <input type="text" class="" id="2spouse_first_name" name="spouse_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="2spouse_middle_name_error_message"></span>
+                    <input type="text" class="" id="2spouse_middle_name" name="spouse_middle_name">
+                </div>
+                <div class="flex-container">
+                    <div class="flex-item-left">
+                        <label>NAME EXTENSION:</label>
+                        <span class="redlabel" id="2spouse_name_ext_error_message"></span>
+                        <select class="form-control" name="spouse_name_ext" id="2spouse_name_ext">
+                            <option value=""></option>
+                            <option value="0">Jr.</option>
+                            <option value="1">Sr.</option>
+                            <option value="2">I</option>
+                            <option value="3">II</option>
+                            <option value="4">III</option>
+                            <option value="5">IV</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-right">
+                        <label class="redlabel"><b>*</b></label><label>OCCUPATION:</label>
+                        <span class="redlabel" id="2pace_of_birth_error_message"></span>
+                        <input type="text" class="" id="2occupation" name="occupation">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>EMPLOYER/BUSINESS NAME:</label>
+                    <span class="redlabel" id="2business_name_error_message"></span>
+                    <input type="text" class="" id="2business_name" name="business_name">
+                </div>
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>BUSINESS ADDRESS:</label>
+                    <span class="redlabel" id="2business_address_error_message"></span>
+                    <input type="text" class="" id="2business_address" name="business_address">
+                </div>
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>TELEPHONE NO.:</label>
+                    <span class="redlabel" id="2spouse_telephone_error_message"></span>
+                    <input type="text" class="" id="2spouse_telephone" name="spouse_telephone">
+                </div>
+                <div class="form-group">
+                    <label>FATHER'S SURNAME:</label>
+                    <span class="redlabel" id="2father_sur_name_error_message"></span>
+                    <input type="text" class="" id="2father_sur_name" name="father_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="2father_first_name_error_message"></span>
+                    <input type="text" class="" id="2father_first_name" name="father_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="2father_middle_name_error_message"></span>
+                    <input type="text" class="" id="2father_middle_name" name="father_middle_name">
+                    <label>NAME EXTENSION:</label>
+                    <span class="redlabel" id="2father_name_ext_error_message"></span>
+                    <select class="form-control" name="father_name_ext" id="2father_name_ext">
+                        <option value=""></option>
+                        <option value="0">Jr.</option>
+                        <option value="1">Sr.</option>
+                        <option value="2">I</option>
+                        <option value="3">II</option>
+                        <option value="4">III</option>
+                        <option value="5">IV</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <div class="secondrow">
+                <div class="form-group">
+                    <label>MOTHER'S SURNAME:</label>
+                    <span class="redlabel" id="2mother_sur_name_error_message"></span>
+                    <input type="text" class="" id="2mother_sur_name" name="mother_sur_name">
+                    <label>FIRST NAME:</label>
+                    <span class="redlabel" id="2mother_first_name_error_message"></span>
+                    <input type="text" class="" id="2mother_first_name" name="mother_first_name">
+                    <label>MIDDLE NAME:</label>
+                    <span class="redlabel" id="2mother_middle_name_error_message1"></span>
+                    <input type="text" class="" id="2mother_middle_name" name="mother_middle_name">
+                </div>
+                <div class="flex-container">
+
+                </div>
+            </div>
+        </div>
+        <div class="btn-box">
+            <input type="button" name="back2" id="back2" class="next-btn" value="Back">
+            <input type="button" name="next2" id="next2" class="next-btn" value="Next">
+        </div>
+    </form>
+
+
+    <form id="workform">
+        <h3>V. WORK EXPERIENCE</h3>
+        <div class="btn-box">
+            <input type="button" name="back3" id="back3" class="next-btn" value="Back">
+            <input type="button" name="next3" id="next3" class="next-btn" value="Next">
+        </div>
+    </form>
+
+    <form id="volworkform">
+        <h3>VI. VOLUNTARY WORK OR INVOLVEMENT IN CIVIL / NON-GOVERNMENT / PEOPLE / VOLUNTARY ORGANIZATIONS</h3>
+        <div class="btn-box">
+            <input type="button" name="back4" id="back4" class="next-btn" value="Back">
+            <input type="button" name="next4" id="next4" class="next-btn" value="Next">
+        </div>
+    </form>
+
+    <form id="learningform">
+        <h3>VII. LEARNING AND DEVELOPMENT (L&D) INTERVENTIONS/TRAINING PROGRAMS ATTENDED</h3>
+        <div class="btn-box">
+            <input type="button" name="back5" id="back5" class="next-btn" value="Back">
+            <input type="button" name="next5" id="next5" class="next-btn" value="Next">
+        </div>
+    </form>
+    <form id="othersform">
+        <h3>VIII. OTHER INFORMATION</h3>
+        <div class="btn-box">
+            <input type="button" name="back6" id="back6" class="next-btn" value="Back">
+            <input type="button" name="next6" id="next6" class="next-btn" value="Next">
+        </div>
+    </form>
+    <form id="questionsform">
+        <h3>IX. QUESTIONS</h3>
+        <div class="btn-box">
+            <input type="button" name="back7" id="back7" class="next-btn" value="Back">
+            <input type="button" name="next7" id="next7" class="next-btn" value="Next">
+        </div>
+    </form>
+    <form id="referenceform">
+        <h3>X. REFERENCES</h3>
+        <div class="btn-box">
+            <input type="button" name="back8" id="back8" class="next-btn" value="Back">
+            <input type="button" name="next8" id="next8" class="next-btn" value="Next">
+        </div>
+    </form>
+    <form id="confirmationform">
+        <h3>XI. CONFIRMATION</h3>
+        <div class="btn-box">
+            <input type="button" name="back9" id="back9" class="next-btn" value="Back">
+            <input type="button" name="next9" id="next9" class="next-btn" value="Next">
+        </div>
+    </form>
+    <div class="step-row">
+        <div id="progress"></div>
+        <div class="step-col">
+            <small>Family</small>
+        </div>
+        <div class="step-col">
+            <small>Education</small>
+        </div>
+        <div class="step-col">
+            <small>Civil Service</small>
+        </div>
+        <div class="step-col">
+            <small>Work</small>
+        </div>
+        <div class="step-col">
+            <small>Voluntary Work</small>
+        </div>
+        <div class="step-col">
+            <small>L&D</small>
+        </div>
+        <div class="step-col">
+            <small>Others</small>
+        </div>
+        <div class="step-col">
+            <small>Questions</small>
+        </div>
+        <div class="step-col">
+            <small>References</small>
+        </div>
+        <div class="step-col">
+            <small>Confirmation</small>
+        </div>
+    </div>
+</div>
+
+
+{% block bot_scripts %}
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<!-- jQuery easing plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"
+        type="text/javascript"></script>
+<script src="{% static 'js/c_form.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/children_modal.js' %}" type="text/javascript"></script>
+
+{% endblock %}
+{% endblock content %}

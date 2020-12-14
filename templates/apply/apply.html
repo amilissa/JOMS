@@ -6,26 +6,8 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" src="{% static 'js/jquery-3.5.1.min.js' %}">
-$(document).ready(function(){
-    $("#same").change(function(){
-        if(this.checked){
-        console.log("hey");
-            $('#permanent_address').show();
-        }else{
-            $('#permanent_address').hide();
-        }
-    });
-});
-
-
-
-
-
-
-
-
-</script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
 {% endblock %}
 
 
@@ -35,22 +17,27 @@ $(document).ready(function(){
     <div class="title">
         <h4>I. PERSONAL INFORMATION</h4>
     </div>
-    <form action="/save" method="post">
+    <form action="/apply/other-forms" id="personal_info_form" method="post">
+        {% csrf_token %}
         <div class="contact-form">
             <div class="input-fields">
 
                 <div class="form-group">
                     <label class="redlabel"><b>*</b></label><label>SUR NAME:</label>
-                    <input type="text" class="form-control" id="sur_name" required>
+                    <span class="redlabel redlabel" id="sur_name_error_message"></span>
+                    <input type="text" class="form-control" id="sur_name" name="sur_name">
                     <label class="redlabel"><b>*</b></label><label>FIRST NAME:</label>
-                    <input type="text" class="form-control" id="first_name" required>
+                    <span class="redlabel" id="first_name_error_message"></span>
+                    <input type="text" class="form-control" id="first_name" name="first_name">
                     <label>MIDDLE NAME:</label>
-                    <input type="text" class="form-control" id="middle_name">
+                    <span class="redlabel" id="middle_name_error_message"></span>
+                    <input type="text" class="form-control" id="middle_name" name="middle_name">
                 </div>
                 <div class="flex-container">
                     <div class="flex-item-left">
                         <label>NAME EXTENSION:</label>
-                        <select class="form-control" name="name_ext" id="name_ext" readonly>
+                        <span class="redlabel" id="name_ext_error_message"></span>
+                        <select class="form-control" name="name_ext" id="name_ext">
                             <option value=""></option>
                             <option value="0">Jr.</option>
                             <option value="1">Sr.</option>
@@ -62,14 +49,21 @@ $(document).ready(function(){
                     </div>
                     <div class="flex-item-right">
                         <label class="redlabel"><b>*</b></label><label>DATE OF BIRTH:</label>
-                        <input type="date" class="form-control" id="dob" required>
+                        <span class="redlabel" id="date_of_birth_error_message"></span>
+                        <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" required>
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="redlabel"><b>*</b></label><label>PLACE OF BIRTH:</label>
+                    <span class="redlabel" id="pace_of_birth_error_message"></span>
+                    <input type="text" class="form-control" id="pace_of_birth" name="pace_of_birth">
+                </div>
                 <div class="flex-container">
                     <div class="flex-item-left">
                         <label class="redlabel"><b>*</b></label><label>SEX:</label>
-                        <select class="form-control" name="gender" id="gender" readonly>
+                        <span class="redlabel" id="sex_error_message"></span>
+                        <select class="form-control" name="sex" id="sex">
                             <option value=""></option>
                             <option value="0">Male</option>
                             <option value="1">Female</option>
@@ -77,7 +71,8 @@ $(document).ready(function(){
                     </div>
                     <div class="flex-item-right">
                         <label class="redlabel"><b>*</b></label><label>CIVIL STATUS:</label>
-                        <select class="form-control" name="civil_status" id="civil_status" readonly>
+                        <span class="redlabel" id="civil_status_error_message"></span>
+                        <select class="form-control" name="civil_status" id="civil_status">
                             <option value=""></option>
                             <option value="0">Single</option>
                             <option value="1">Widowed</option>
@@ -89,94 +84,160 @@ $(document).ready(function(){
                 </div>
                 <div class="flex-container">
                     <div class="flex-item-left">
+
                         <label class="redlabel"><b>*</b></label><label>HEIGHT(m):</label>
-                        <input type="text" class="form-control" id="height" required>
+                        <span class="redlabel" id="height_error_message"></span>
+                        <input type="text" class="form-control" id="height" name="height">
                     </div>
                     <div class="flex-item-right">
                         <label class="redlabel"><b>*</b></label><label>WEIGHT(kg):</label>
-                        <input type="text" class="form-control" id="weight" required>
+                        <span class="redlabel" id="weight_error_message"></span>
+                        <input type="text" class="form-control" id="weight" name="weight">
 
                     </div>
                 </div>
                 <div class="flex-container">
                     <div class="flex-item-left">
+                        <label class="redlabel"><b>*</b></label><label>BLOOD TYPE:</label>
+                        <span class="redlabel" id="blood_type_error_message"></span>
+                        <select name="blood_type" id="blood_type" class="form-control">
+                            <option value="">N/A</option>
+                            <option value="O">O</option>
+                            <option value="O +">O +</option>
+                            <option value="O -">O -</option>
+                            <option value="A">A</option>
+                            <option value="A +">A +</option>
+                            <option value="A -">A -</option>
+                            <option value="B">B</option>
+                            <option value="B +">B +</option>
+                            <option value="B -">B -</option>
+                            <option value="AB">AB</option>
+                            <option value="AB +">AB +</option>
+                            <option value="AB -">AB -</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-right">
                         <label>GSIS ID NO.:</label>
-                        <input type="text" class="form-control" id="gsis_id">
+                        <span class="redlabel" id="gsis_id_no_error_message"></span>
+                        <input type="text" class="form-control" id="gsis_id_no" name="gsis_id_no">
                     </div>
-                    <div class="flex-item-right">
+                </div>
+                <div class="flex-container">
+                    <div class="flex-item-left">
                         <label>PAG-IBIG ID NO.:</label>
-                        <input type="text" class="form-control" id="pagibig_id">
+                        <span class="redlabel" id="pagibig_id_no_error_message"></span>
+                        <input type="text" class="form-control" id="pagibig_id_no" name="pagibig_id_no">
                     </div>
-                </div>
-                <div class="flex-container">
-                    <div class="flex-item-left">
+                    <div class="flex-item-right">
                         <label>PHILHEALTH NO.:</label>
-                        <input type="text" class="form-control" id="philhealth_id">
-                    </div>
-                    <div class="flex-item-right">
-                        <label>SSS NO.:</label>
-                        <input type="text" class="form-control" id="sss_id">
+                        <span class="redlabel" id="philhealth_no_error_message"></span>
+                        <input type="text" class="form-control" id="philhealth_no" name="philhealth_no">
                     </div>
                 </div>
                 <div class="flex-container">
                     <div class="flex-item-left">
-                        <label>TIN NO.:</label>
-                        <input type="text" class="form-control" id="tin_id">
+                        <label>SSS NO.:</label>
+                        <span class="redlabel" id="sss_no_error_message"></span>
+                        <input type="text" class="form-control" id="sss_no" name="sss_no">
                     </div>
                     <div class="flex-item-right">
-                        <label>AGENCY EMPLOYEE NO.:</label>
-                        <input type="text" class="form-control" id="employee_id">
+
+                        <label>TIN NO.:</label>
+                        <span class="redlabel" id="tin_no_error_message"></span>
+                        <input type="text" class="form-control" id="tin_no" name="tin_no">
                     </div>
                 </div>
+                <div class="flex-container">
+                    <div class="flex-item-left">
+                        <label>AGENCY EMPLOYEE NO.:</label>
+                        <span class="redlabel" id="agency_employee_no_error_message"></span>
+                        <input type="text" class="form-control" id="agency_employee_no" name="agency_employee_no">
+                    </div>
 
+                </div>
 
             </div>
             <div class="secondrow">
-                <div class="form-group">
-                    <label class="redlabel"><b>*</b></label><label>CITIZENSHIP:</label>
-                    <select class="form-control" name="citizenship" id="citizenship" readonly>
-                        <option value=""></option>
-                        <option value="0">Filipino</option>
-                        <option value="1">Dual Citizenship by birth</option>
-                        <option value="2">Dual Citizenship by naturalization</option>
-                    </select>
+
+                <div class="flex-container">
+                    <div class="flex-item-right">
+
+                        <label class="redlabel"><b>*</b></label><label>CITIZENSHIP:</label>
+                        <span class="redlabel" id="citizenship_error_message"></span>
+                        <select class="form-control" name="citizenship" id="citizenship">
+                            <option value=""></option>
+                            <option value="0">Filipino</option>
+                            <option value="1">Dual Citizenship by birth</option>
+                            <option value="2">Dual Citizenship by naturalization</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-right">
+
+                        <label class="redlabel" id="red_country_hide"><b>*</b></label><label
+                            id="country_hide">COUNTRY:</label>
+                        <span class="redlabel" id="citizenship_country_error_message"></span>
+                        <select class="form-control" name="citizenship_country" id="citizenship_country">
+                            <option value=""></option>
+                            <option value="0">Filipino</option>
+                            <option value="1">Dual Citizenship by birth</option>
+                            <option value="2">Dual Citizenship by naturalization</option>
+                        </select>
+                    </div>
                 </div>
                 <label class="redlabel"><b>*</b></label><label>RESIDENTIAL ADDRESS:</label>
+                <span class="redlabel" id="residence_error_message"></span>
                 <div class="flex-container">
                     <div class="flex-item-left">
-                        <input type="text" class="form-control" id="res_lot_no">
+                        <input type="text" class="form-control" id="res_reg" name="res_reg" value="Davao Region">
                         <div class="tunga">
-                            <small>House/Block/Lot no.</small>
-                        </div>
-                    </div>
-                    <div class="flex-item-left">
-                        <input type="text" class="form-control" id="res_street">
-                        <div class="tunga">
-                            <small>Street</small>
-                        </div>
-                    </div>
-                    <div class="flex-item-left">
-                        <input type="text" class="form-control" id="res_subd">
-                        <div class="tunga">
-                            <small>Subdivision/Village</small>
+                            <small>Region</small>
                         </div>
                     </div>
                     <div class="flex-item-right">
-                        <input type="text" class="form-control" id="res_brgy">
+                        <input type="text" class="form-control" id="res_province" name="res_province"
+                               value="Davao del Sur">
                         <div class="tunga">
-                            <small>Barangay</small>
+                            <small>Province</small>
                         </div>
                     </div>
-                    <div class="flex-item-right">
-                        <input type="text" class="form-control" id="res_city">
+                    <div class="flex-item-left">
+                        <input type="text" class="form-control" id="res_city" name="res_city" value="City of Digos">
                         <div class="tunga">
                             <small>City/Municipality</small>
                         </div>
                     </div>
                     <div class="flex-item-right">
-                        <input type="text" class="form-control" id="res_province">
+                        <input type="text" class="form-control" id="res_brgy" name="res_brgy">
                         <div class="tunga">
-                            <small>Province</small>
+                            <small>Barangay</small>
+                        </div>
+                    </div>
+                    <div class="flex-item-left">
+                        <input type="text" class="form-control" id="res_lot_no" name="res_lot_no" placeholder="ex. 0622"
+                               required>
+                        <div class="tunga">
+                            <small>House/Block/Lot no.</small>
+                        </div>
+                    </div>
+                    <div class="flex-item-right">
+                        <input type="text" class="form-control" id="res_street" name="res_street"
+                               placeholder="ex. Aurora 3rd" required>
+                        <div class="tunga">
+                            <small>Street</small>
+                        </div>
+                    </div>
+                    <div class="flex-item-left">
+                        <input type="text" class="form-control" id="res_subd" name="res_subd"
+                               placeholder="ex. Purok Rose"
+                               required>
+                        <div class="tunga">
+                            <small>Subdivision/Village</small>
+                        </div>
+                    </div>
+                    <div class="flex-item-right">
+                        <input type="text" class="form-control" id="res_zipcode" name="res_zipcode" required>
+                        <div class="tunga">
+                            <small>Zip Code</small>
                         </div>
                     </div>
                 </div>
@@ -184,41 +245,54 @@ $(document).ready(function(){
                 <div class="container">
                     <label class="redlabel"><b>*</b></label><label>PERMANENT ADDRESS:</label>
                     <label class="checkbox-inline">Same <input class="checkbox" id="same" type="checkbox"></label>
+                    <span class="redlabel" id="permanent_error_message"></span>
                     <div class="flex-container" id="permanent_address">
                         <div class="flex-item-left">
-                            <input type="text" class="form-control" id="per_lot_no">
+                            <input type="text" class="form-control" id="per_reg" name="per_reg">
                             <div class="tunga">
-                                <small>House/Block/Lot no.</small>
-                            </div>
-                        </div>
-                        <div class="flex-item-left">
-                            <input type="text" class="form-control" id="per_street">
-                            <div class="tunga">
-                                <small>Street</small>
-                            </div>
-                        </div>
-                        <div class="flex-item-left">
-                            <input type="text" class="form-control" id="per_subd">
-                            <div class="tunga">
-                                <small>Subdivision/Village</small>
+                                <small>Region</small>
                             </div>
                         </div>
                         <div class="flex-item-right">
-                            <input type="text" class="form-control" id="per_brgy">
+                            <input type="text" class="form-control" id="per_province" name="per_province">
                             <div class="tunga">
-                                <small>Barangay</small>
+                                <small>Province</small>
                             </div>
                         </div>
-                        <div class="flex-item-right">
-                            <input type="text" class="form-control" id="per_city">
+                        <div class="flex-item-left">
+                            <input type="text" class="form-control" id="per_city" name="per_city">
                             <div class="tunga">
                                 <small>City/Municipality</small>
                             </div>
                         </div>
                         <div class="flex-item-right">
-                            <input type="text" class="form-control" id="per_province">
+                            <input type="text" class="form-control" id="per_brgy" name="per_brgy">
                             <div class="tunga">
-                                <small>Province</small>
+                                <small>Barangay</small>
+                            </div>
+                        </div>
+                        <div class="flex-item-left">
+                            <input type="text" class="form-control" id="per_lot_no" name="per_lot_no" required>
+                            <div class="tunga">
+                                <small>House/Block/Lot no.</small>
+                            </div>
+                        </div>
+                        <div class="flex-item-right">
+                            <input type="text" class="form-control" id="per_street" name="per_street" required>
+                            <div class="tunga">
+                                <small>Street</small>
+                            </div>
+                        </div>
+                        <div class="flex-item-left">
+                            <input type="text" class="form-control" id="per_subd" name="per_subd" required>
+                            <div class="tunga">
+                                <small>Subdivision/Village</small>
+                            </div>
+                        </div>
+                        <div class="flex-item-right">
+                            <input type="text" class="form-control" id="per_zipcode" name="per_zipcode" required>
+                            <div class="tunga">
+                                <small>Zip Code</small>
                             </div>
                         </div>
                     </div>
@@ -226,24 +300,680 @@ $(document).ready(function(){
                 <div class="flex-container">
                     <div class="flex-item-left">
                         <label>TELEPHONE NO.:</label>
-                        <input type="text" class="form-control" id="tel_no">
+                        <span class="redlabel" id="telephone_error_message"></span>
+                        <input type="text" class="form-control" id="telephone" name="telephone">
                     </div>
                     <div class="flex-item-right">
                         <label class="redlabel"><b>*</b></label><label>MOBILE NO.:</label>
-                        <input type="text" class="form-control" id="mobile_no">
+                        <span class="redlabel" id="mobile_no_error_message"></span>
+                        <input type="text" class="form-control" id="mobile_no" name="mobile_no"
+                               placeholder="ex. 9123456789">
                     </div>
+                    <div class="flex-item-left">
+                        <label>EMAIL ADDRESS (if any):</label>
+                        <span class="redlabel" id="email_address_error_message"></span>
+                        <input type="email" class="form-control" id="email_address" name="email_address">
+
+                    </div>
+                    <div class="flex-item-right">
+                        <label>UPLOAD IMAGE:</label>
+                        <input type="file" id="user_img" name="user_img" accept="image/*">
+                    </div>
+
                 </div>
-                <label>EMAIL ADDRESS (if any):</label>
-                <input type="text" class="form-control" id="email_address">
-
             </div>
-
         </div>
         <div class="tunga">
-            <button type="submit" class="btn btn-primary">BACK</button>
-            <button type="submit" class="btn btn-primary">NEXT</button>
+            <!--            <button type="submit" class="btn btn-primary">BACK</button>-->
+            <input type="submit" id="submit_form" value="Save & Continue" class="btn btn-success"></input>
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+
+
+        $(document).ready(function(){
+            $("#same").change(function(){
+                if(this.checked){
+                console.log("same address");
+                    var reg = $("#res_reg").val();
+                    var prov = $("#res_province").val();
+                    var city = $("#res_city").val();
+                    var brgy = $("#res_brgy").val();
+                    var lot_no = $("#res_lot_no").val();
+                    var street = $("#res_street").val();
+                    var subd = $("#res_subd").val();
+                    var zipcode = $("#res_zipcode").val();
+                    $('#per_reg').val(reg);
+                    $('#per_province').val(prov);
+                    $('#per_city').val(city);
+                    $('#per_brgy').val(brgy);
+                    $('#per_lot_no').val(lot_no);
+                    $('#per_street').val(street);
+                    $('#per_subd').val(subd);
+                    $('#per_zipcode').val(zipcode);
+
+                    document.getElementById('per_reg').readOnly = true;
+                    document.getElementById('per_province').readOnly = true;
+                    document.getElementById('per_city').readOnly = true;
+                    document.getElementById('per_brgy').readOnly = true;
+                    document.getElementById('per_lot_no').readOnly = true;
+                    document.getElementById('per_street').readOnly = true;
+                    document.getElementById('per_subd').readOnly = true;
+                    document.getElementById('per_zipcode').readOnly = true;
+                }else{
+                    $('#per_reg').val("");
+                    $('#per_province').val("");
+                    $('#per_city').val("");
+                    $('#per_brgy').val("");
+                    $('#per_lot_no').val("");
+                    $('#per_street').val("");
+                    $('#per_subd').val("");
+                    $('#per_zipcode').val("");
+                    document.getElementById('per_reg').readOnly = false;
+                    document.getElementById('per_province').readOnly = false;
+                    document.getElementById('per_city').readOnly = false;
+                    document.getElementById('per_brgy').readOnly = false;
+                    document.getElementById('per_lot_no').readOnly = false;
+                    document.getElementById('per_street').readOnly = false;
+                    document.getElementById('per_subd').readOnly = false;
+                    document.getElementById('per_zipcode').readOnly = false;
+                }
+            });
+
+        });
+        $(document).ready(function(){
+            $("#citizenship").change(function(){
+                if($("#citizenship" ).val() == 0){
+                console.log("not filipino");
+                    $('#citizenship_country').hide();
+                    $('#red_country_hide').hide();
+                    $('#country_hide').hide();
+                }else{
+                    $('#citizenship_country').show();
+                    $('#red_country_hide').show();
+                    $('#country_hide').show();
+                }
+            });
+$(function() {
+
+
+        $('#citizenship_country').hide();
+        $('#red_country_hide').hide();
+        $('#country_hide').hide();
+        $("#sur_name_error_message").hide();
+        $("#first_name_error_message").hide();
+        $("#middle_name_error_message").hide();
+        $("#name_ext_error_message").hide();
+        $("#date_of_birth_error_message").hide();
+        $("#pace_of_birth_error_message").hide();
+        $("#sex_error_message").hide();
+        $("#civil_status_error_message").hide();
+        $("#height_error_message").hide();
+        $("#weight_error_message").hide();
+        $("#blood_type_error_message").hide();
+        $("#gsis_id_no_error_message").hide();
+        $("#pagibig_id_no_error_message").hide();
+        $("#philhealth_no_error_message").hide();
+        $("#sss_no_error_message").hide();
+        $("#tin_no_error_message").hide();
+        $("#agency_employee_no_error_message").hide();
+        $("#citizenship_error_message").hide();
+        $("#citizenship_country_error_message").hide();
+        $("#residence_error_message").hide();
+        $("#permanent_error_message").hide();
+        $("#telephone_error_message").hide();
+        $("#mobile_no_error_message").hide();
+        $("#email_address_error_message").hide();
+
+        var error_sur_name = false;
+        var error_first_name = false;
+        var error_middle_name = false;
+        var error_name_ext = false;
+        var error_date_of_birth = false;
+        var error_pace_of_birth = false;
+        var error_sex = false;
+        var error_civil_status = false;
+        var error_height = false;
+        var error_weight = false;
+        var error_blood_type = false;
+        var error_gsis_id_no = false;
+        var error_pagibig_id_no = false;
+        var error_philhealth_no = false;
+        var error_sss_no = false;
+        var error_tin_no = false;
+        var error_agency_employee_no = false;
+        var error_citizenship = false;
+        var error_citizenship_country = false;
+        var error_residence = false;
+        var error_permanent = false;
+        var error_telephone = false;
+        var error_mobile_no = false;
+        var error_email_address = false;
+
+         $("#sur_name").focusout(function(){
+            check_sur_name();
+         });
+         $("#first_name").focusout(function(){
+            check_first_name();
+         });
+         $("#middle_name").focusout(function(){
+            check_middle_name();
+         });
+         $("#date_of_birth").focusout(function(){
+            check_date_of_birth();
+         });
+         $("#pace_of_birth").focusout(function(){
+            check_pace_of_birth();
+         });
+         $("#sex").focusout(function(){
+            check_sex();
+         });
+         $("#civil_status").focusout(function(){
+            check_civil_status();
+         });
+         $("#height").focusout(function(){
+            check_height();
+         });
+         $("#weight").focusout(function(){
+            check_weight();
+         });
+         $("#gsis_id_no").focusout(function(){
+            check_gsis_id_no();
+         });
+         $("#pagibig_id_no").focusout(function(){
+            check_pagibig_id_no();
+         });
+         $("#philhealth_no").focusout(function(){
+            check_philhealth_no();
+         });
+         $("#sss_no").focusout(function(){
+            check_sss_no();
+         });
+         $("#tin_no").focusout(function(){
+            check_tin_no();
+         });
+         $("#agency_employee_no").focusout(function(){
+            check_agency_employee_no();
+         });
+         $("#citizenship").focusout(function(){
+            check_citizenship();
+         });
+         $("#citizenship_country").focusout(function(){
+            check_citizenship_country();
+         });
+         $("#res_reg").focusout(function(){
+            check_residence();
+         });
+         $("#res_province").focusout(function(){
+            check_residence();
+         });
+         $("#res_city").focusout(function(){
+            check_residence();
+         });
+         $("#res_brgy").focusout(function(){
+            check_residence();
+         });
+         $("#res_lot_no").focusout(function(){
+            check_residence();
+         });
+         $("#res_street").focusout(function(){
+            check_residence();
+         });
+         $("#res_subd").focusout(function(){
+            check_residence();
+         });
+         $("#res_zipcode").focusout(function(){
+            check_residence();
+         });
+        $("#per_reg").focusout(function(){
+           check_permanent();
+        });
+        $("#per_province").focusout(function(){
+           check_permanent();
+        });
+        $("#per_city").focusout(function(){
+           check_permanent();
+        });
+        $("#per_brgy").focusout(function(){
+           check_permanent();
+        });
+        $("#per_lot_no").focusout(function(){
+           check_permanent();
+        });
+        $("#per_street").focusout(function(){
+           check_permanent();
+        });
+        $("#per_subd").focusout(function(){
+           check_permanent();
+        });
+        $("#per_zipcode").focusout(function(){
+           check_permanent();
+        });
+
+         $("#permanent").focusout(function(){
+            check_permanent();
+         });
+         $("#telephone").focusout(function(){
+            check_telephone();
+         });
+         $("#mobile_no").focusout(function(){
+            check_mobile_no();
+         });
+         $("#email_address").focusout(function(){
+            check_email_address();
+         });
+
+         function check_sur_name() {
+            var pattern = /^[a-zA-Z ]*$/;
+            var sur_name = $("#sur_name").val();
+            if (pattern.test(sur_name) && sur_name !== '') {
+               $("#sur_name_error_message").hide();
+               error_sur_name = false;
+            } else {
+               $("#sur_name_error_message").html("Should contain Letters only.");
+               $("#sur_name_error_message").show();
+               error_sur_name = true;
+            }
+         }
+
+         function check_first_name() {
+            var pattern = /^[a-zA-Z ]*$/;
+            var first_name = $("#first_name").val()
+            if (pattern.test(first_name) && first_name !== '') {
+               $("#first_name_error_message").hide();
+               error_first_name = false;
+            } else {
+               $("#first_name_error_message").html("Should contain Letters only.");
+               $("#first_name_error_message").show();
+               error_first_name = true;
+            }
+         }
+        function check_middle_name() {
+            var pattern = /^[a-zA-Z ]*$/;
+            var middle_name = $("#middle_name").val()
+            if (pattern.test(middle_name) && middle_name !== '') {
+               $("#middle_name_error_message").hide();
+               error_middle_name = false;
+            } else {
+               $("#middle_name_error_message").html("Should contain Letters only.");
+               $("#middle_name_error_message").show();
+               error_middle_name = true;
+            }
+         }
+         function check_date_of_birth() {
+            var pattern = /^[a-zA-Z ]*$/;
+            var date_of_birth = $("#date_of_birth").val()
+            if (date_of_birth !== '') {
+               $("#date_of_birth_error_message").hide();
+               error_date_of_birth = false;
+            } else {
+               $("#date_of_birth_error_message").html("Please provide.");
+               $("#date_of_birth_error_message").show();
+               error_date_of_birth = true;
+            }
+         }
+        function check_pace_of_birth() {
+            var pace_of_birth = $("#pace_of_birth").val()
+            if (pace_of_birth !== '') {
+               $("#pace_of_birth_error_message").hide();
+               error_pace_of_birth = false;
+            } else {
+               $("#pace_of_birth_error_message").html("Please provide Place of Birth.");
+               $("#pace_of_birth_error_message").show();
+               error_pace_of_birth = true;
+            }
+         }
+         function check_sex() {
+            var sex = $("#sex").val()
+            if (sex !== '') {
+               $("#sex_error_message").hide();
+               error_sex = false;
+            } else {
+               $("#sex_error_message").html("Please provide gender.");
+               $("#sex_error_message").show();
+               error_sex = true;
+            }
+         }
+         function check_civil_status() {
+            var civil_status = $("#civil_status").val()
+            if (civil_status !== '') {
+               $("#civil_status_error_message").hide();
+               error_sex = false;
+            } else {
+               $("#civil_status_error_message").html("Please provide.");
+               $("#civil_status_error_message").show();
+               error_sex = true;
+            }
+         }
+
+
+         function check_height() {
+            var pattern = /^[0-9.]+$/;
+            var height = $("#height").val()
+            if (pattern.test(height) && height !== '') {
+               $("#height_error_message").hide();
+               error_height = false;
+            } else {
+               $("#height_error_message").html("Numbers only.");
+               $("#height_error_message").show();
+               error_height = true;
+            }
+         }
+         function check_weight() {
+            var pattern = /^[0-9.]+$/;
+            var weight = $("#weight").val()
+            if (pattern.test(weight) && weight !== '') {
+               $("#weight_error_message").hide();
+               error_weight = false;
+            } else {
+               $("#weight_error_message").html("Numbers only.");
+               $("#weight_error_message").show();
+               error_weight = true;
+            }
+         }
+         function check_gsis_id_no() {
+            var pattern = /^[0-9]+$/;
+            var gsis_id_no = $("#gsis_id_no").val()
+            if (pattern.test(gsis_id_no) || gsis_id_no == "") {
+               $("#gsis_id_no_error_message").hide();
+               error_gsis_id_no = false;
+            } else {
+               $("#gsis_id_no_error_message").html("Numbers only.");
+               $("#gsis_id_no_error_message").show();
+               error_gsis_id_no = true;
+            }
+         }
+         function check_pagibig_id_no() {
+            var pattern = /^[0-9]+$/;
+            var pagibig_id_no = $("#pagibig_id_no").val()
+            if (pattern.test(pagibig_id_no) || pagibig_id_no == "") {
+               $("#pagibig_id_no_error_message").hide();
+               error_pagibig_id_no = false;
+            } else {
+               $("#pagibig_id_no_error_message").html("Numbers only.");
+               $("#pagibig_id_no_error_message").show();
+               error_pagibig_id_no = true;
+            }
+         }
+         function check_philhealth_no() {
+            var pattern = /^[0-9]+$/;
+            var philhealth_no = $("#philhealth_no").val()
+            if (pattern.test(philhealth_no) || philhealth_no == "") {
+               $("#philhealth_no_error_message").hide();
+               error_philhealth_no = false;
+            } else {
+               $("#philhealth_no_error_message").html("Numbers only.");
+               $("#philhealth_no_error_message").show();
+               error_philhealth_no = true;
+            }
+         }
+
+         function check_sss_no() {
+            var pattern = /^[0-9]+$/;
+            var sss_no = $("#sss_no").val()
+            if (pattern.test(sss_no) || sss_no == "") {
+               $("#sss_no_error_message").hide();
+               error_sss_no = false;
+            } else {
+               $("#sss_no_error_message").html("Numbers only.");
+               $("#sss_no_error_message").show();
+               error_sss_no = true;
+            }
+         }
+
+         function check_tin_no() {
+            var pattern = /^[0-9]+$/;
+            var tin_no = $("#tin_no").val()
+            if (pattern.test(tin_no) || tin_no == "") {
+               $("#tin_no_error_message").hide();
+               error_tin_no = false;
+            } else {
+               $("#tin_no_error_message").html("Numbers only.");
+               $("#tin_no_error_message").show();
+               error_tin_no = true;
+            }
+         }
+
+         function check_agency_employee_no() {
+            var pattern = /^[0-9]+$/;
+            var agency_employee_no = $("#agency_employee_no").val()
+            if (pattern.test(agency_employee_no) || agency_employee_no == "") {
+               $("#agency_employee_no_error_message").hide();
+               error_agency_employee_no = false;
+            } else {
+               $("#agency_employee_no_error_message").html("Numbers only.");
+               $("#agency_employee_no_error_message").show();
+               error_agency_employee_no = true;
+            }
+         }
+         function check_citizenship() {
+            var citizenship = $("#citizenship").val()
+            if (citizenship !== '') {
+               $("#citizenship_error_message").hide();
+               error_citizenship = false;
+            } else {
+               $("#citizenship_error_message").html("Please provide.");
+               $("#citizenship_error_message").show();
+               error_citizenship = true;
+            }
+         }
+         function check_residence() {
+            var pattern = /^[0-9]+$/;
+            var res_reg = $("#res_reg").val()
+            var res_province = $("#res_province").val()
+            var res_city = $("#res_city").val()
+            var res_brgy = $("#res_brgy").val()
+            var res_lot_no = $("#res_lot_no").val()
+            var res_street = $("#res_street").val()
+            var res_subd = $("#res_subd").val()
+            var res_zipcode = $("#res_zipcode").val()
+            if (res_reg == "") {
+               $("#residence_error_message").html("Please provide region.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else if (res_province == "") {
+               $("#residence_error_message").html("Please provide province.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else if (res_city == "") {
+               $("#residence_error_message").html("Please provide city.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else if (res_brgy == "") {
+               $("#residence_error_message").html("Please provide barangay.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else if (res_lot_no == "") {
+               $("#residence_error_message").html("Please provide house no.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else if (res_street == "") {
+               $("#residence_error_message").html("Please provide street.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else if (res_subd == "") {
+               $("#residence_error_message").html("Please provide subdivision.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else if (res_zipcode == "") {
+               $("#residence_error_message").html("Please provide zip code.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            }else if (!pattern.test(res_zipcode)) {
+               $("#residence_error_message").html("Number only.");
+               $("#residence_error_message").show();
+               error_residence = true;
+            } else  {
+               $("#residence_error_message").hide();
+               error_residence = false;
+            }
+         }
+         function check_permanent() {
+            var pattern = /^[0-9]+$/;
+           var per_reg = $("#per_reg").val()
+           var per_province = $("#per_province").val()
+           var per_city = $("#per_city").val()
+           var per_brgy = $("#per_brgy").val()
+           var per_lot_no = $("#per_lot_no").val()
+           var per_street = $("#per_street").val()
+           var per_subd = $("#per_subd").val()
+           var per_zipcode = $("#per_zipcode").val()
+           if (per_reg == "") {
+              $("#permanent_error_message").html("Please provide region.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (per_province == "") {
+              $("#permanent_error_message").html("Please provide province.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (per_city == "") {
+              $("#permanent_error_message").html("Please provide city.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (per_brgy == "") {
+              $("#permanent_error_message").html("Please provide barangay.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (per_lot_no == "") {
+              $("#permanent_error_message").html("Please provide house no.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (per_street == "") {
+              $("#permanent_error_message").html("Please provide street.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (per_subd == "") {
+              $("#permanent_error_message").html("Please provide subdivision.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (per_zipcode == "") {
+              $("#permanent_error_message").html("Please provide zip code.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           } else if (!pattern.test(per_zipcode)) {
+              $("#permanent_error_message").html("Number only.");
+              $("#permanent_error_message").show();
+              error_permanent = true;
+           }else  {
+              $("#permanent_error_message").hide();
+              error_permanent = false;
+           }
+        }
+         function check_telephone() {
+            var pattern = /^[0-9]+$/;
+            var telephone = $("#telephone").val()
+            if (pattern.test(telephone) || telephone == "") {
+               $("#telephone_error_message").hide();
+               error_telephone = false;
+            } else {
+               $("#telephone_error_message").html("Numbers only.");
+               $("#telephone_error_message").show();
+               error_telephone = true;
+            }
+         }
+         function check_mobile_no() {
+            var pattern = /^\d{11}$/;
+            var mobile_no = $("#mobile_no").val()
+            if (pattern.test(mobile_no)) {
+               $("#mobile_no_error_message").hide();
+               error_mobile_no = false;
+            } else {
+               $("#mobile_no_error_message").html("Numbers only.");
+               $("#mobile_no_error_message").show();
+               error_mobile_no = true;
+            }
+         }
+         function check_email_address() {
+            var pattern = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            var email_address = $("#email_address").val();
+            if (pattern.test(email_address) && email_address !== '') {
+               $("#email_address_error_message").hide();
+               error_email_address = false;
+            } else {
+               $("#email_address_error_message").html("Invalid Email");
+               $("#email_address_error_message").show();
+               error_email_address = true;
+            }
+         }
+
+         $("#personal_info_form").submit(function() {
+            error_sur_name = false;
+             error_first_name = false;
+             error_middle_name = false;
+             error_name_ext = false;
+             error_date_of_birth = false;
+             error_pace_of_birth = false;
+             error_sex = false;
+             error_civil_status = false;
+             error_height = false;
+             error_weight = false;
+             error_blood_type = false;
+             error_gsis_id_no = false;
+             error_pagibig_id_no = false;
+             error_philhealth_no = false;
+             error_sss_no = false;
+             error_tin_no = false;
+             error_agency_employee_no = false;
+             error_citizenship = false;
+             error_citizenship_country = false;
+             error_residence = false;
+             error_permanent = false;
+             error_telephone = false;
+             error_mobile_no = false;
+             error_email_address = false;
+
+            check_sur_name();
+            check_first_name();
+            check_middle_name();
+            check_date_of_birth();
+            check_pace_of_birth();
+            check_sex();
+            check_civil_status();
+            check_height();
+            check_weight();
+            check_citizenship();
+            check_residence();
+            check_permanent();
+            check_telephone();
+            check_mobile_no();
+            check_email_address();
+
+
+            if (error_sur_name == false
+            && error_first_name == false
+            && error_middle_name == false
+            && error_pace_of_birth == false
+            && error_sex == false
+            && error_date_of_birth == false
+            && error_civil_status == false
+            && error_height == false
+            && error_weight == false
+            && error_citizenship == false
+            && error_citizenship_country == false
+            && error_residence == false
+            && error_permanent == false
+            && error_email_address == false
+            && error_telephone == false
+            && error_mobile_no == false) {
+               alert("Registration Successful");
+               return true;
+            } else {
+               alert("Please Fill the form Correctly");
+               return false;
+            }
+
+
+         });
+      });
+
+
+        });
+
+
+
+
+</script>
 
 {% endblock content%}
