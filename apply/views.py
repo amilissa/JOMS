@@ -2,12 +2,53 @@ from django.shortcuts import render, HttpResponse
 from apply.models import personal_Info
 from datetime import datetime
 from modules import helpers
+from apply.models import ref_region, ref_province, ref_barangay, ref_citymun
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import pdb;
 
 
 def apply(request):
-    return render(request, 'apply/apply.html');
+    region = ref_region.objects.all;
+    province = ref_province.objects.all;
+    citymun = ref_citymun.objects.all;
+    brgy = ref_barangay.objects.all;
+    return render(request, 'apply/apply.html', {"ref_region": region, "ref_province": province, "ref_citymun": citymun, "ref_barangay": brgy});
+    pass;
+
+def load_provinces(request):
+    reg_id = request.GET.get('res_reg');
+    prov = ref_province.objects.all().filter(f_region_id=reg_id).order_by('name');
+    return render(request, 'apply/province_options.html', {'province': prov});
+    pass;
+
+def load_citymun(request):
+    prov_id = request.GET.get('res_province');
+    city = ref_citymun.objects.all().filter(f_province_id=prov_id).order_by('name');
+    return render(request, 'apply/citymun_options.html', {'city': city});
+    pass;
+
+def load_brgy(request):
+    city_id = request.GET.get('res_city');
+    brgy = ref_barangay.objects.all().filter(f_citymun_id=city_id).order_by('name');
+    return render(request, 'apply/brgy_options.html', {'brgy': brgy});
+    pass;
+
+def load_provinces_per(request):
+    reg_id = request.GET.get('res_reg');
+    prov = ref_province.objects.all().filter(f_region_id=reg_id).order_by('name');
+    return render(request, 'apply/province_options.html', {'province': prov});
+    pass;
+
+def load_citymun_per(request):
+    prov_id = request.GET.get('res_province');
+    city = ref_citymun.objects.all().filter(f_province_id=prov_id).order_by('name');
+    return render(request, 'apply/citymun_options.html', {'city': city});
+    pass;
+
+def load_brgy_per(request):
+    city_id = request.GET.get('res_city');
+    brgy = ref_barangay.objects.all().filter(f_citymun_id=city_id).order_by('name');
+    return render(request, 'apply/brgy_options.html', {'brgy': brgy});
     pass;
 
 

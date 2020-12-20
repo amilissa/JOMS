@@ -65,6 +65,107 @@ class personal_Info(models.Model):
     def __str__(self):
         return str(self.pi_pk)
     pass
+class ref_region(models.Model):
+    id = models.AutoField(primary_key=True);
+    psgcCode = models.CharField(max_length=50, blank=False, null=False, unique=True);
+    name = models.TextField(blank=False, null=False);
+    regCode = models.CharField(max_length=50, blank=False, null=False, unique=True);
+
+    def provinces(self):
+        return ref_province \
+            .objects \
+            .filter(region_id=self.id) \
+            .order_by("provCode");
+
+        pass;
+
+    def __str__(self):
+        return self.name;
+        pass;
+
+    class Meta:
+        verbose_name = _("Region")
+        verbose_name_plural = _("Regions")
+
+    pass;
+class ref_province(models.Model):
+    id = models.AutoField(primary_key=True);
+    psgcCode = models.CharField(max_length=50, blank=False, null=False, unique=True);
+    name = models.TextField(blank=False, null=False);
+    f_region = models.ForeignKey(ref_region, to_field="regCode", on_delete=models.CASCADE, blank=False, null=False);
+    region = models.ForeignKey(ref_region, related_name="ref_region_id", on_delete=models.CASCADE, blank=False,null=False);
+    provCode = models.CharField(max_length=50, blank=False, null=False, unique=True);
+
+    class Meta:
+        verbose_name = _("Province")
+        verbose_name_plural = _("Provinces")
+
+    def citymunicipalities(self):
+        return ref_citymun \
+            .objects \
+            .filter(province_id=self.id) \
+            .order_by("citymunCode");
+
+        pass;
+
+    def __str__(self):
+        return self.name;
+        pass;
+
+    pass;
+
+
+class ref_citymun(models.Model):
+    id = models.AutoField(primary_key=True);
+    psgcCode = models.CharField(max_length=50, blank=False, null=False, unique=True);
+    name = models.TextField(blank=False, null=False);
+    f_province = models.ForeignKey(ref_province, to_field="provCode", on_delete=models.CASCADE, blank=False, null=False);
+    province = models.ForeignKey(ref_province, related_name="ref_province_id", on_delete=models.CASCADE, blank=False, null=False);
+    citymunCode = models.CharField(max_length=50, blank=False, null=False, unique=True);
+
+    def barangays(self):
+        return ref_barangay \
+            .objects \
+            .filter(citymun_id=self.id) \
+            .order_by("brgyCode");
+
+        pass;
+
+    def __str__(self):
+        return self.name;
+        pass;
+
+    class Meta:
+        verbose_name = _("City/Municipality")
+        verbose_name_plural = _("Cities and Municipalities")
+
+    pass;
+
+
+class ref_barangay(models.Model):
+    id = models.AutoField(primary_key=True);
+    brgyCode = models.CharField(max_length=50, blank=False, null=False, unique=True);
+    name = models.TextField(blank=False, null=False);
+    f_citymun = models.ForeignKey(ref_citymun, to_field="citymunCode", on_delete=models.CASCADE, blank=False, null=False);
+    citymun = models.ForeignKey(ref_citymun, related_name="ref_citymun_id", on_delete=models.CASCADE, blank=False, null=False);
+
+    def __str__(self):
+        return self.name;
+        pass;
+
+    class Meta:
+        verbose_name = _("Barangay")
+        verbose_name_plural = _("Barangays")
+
+    pass;
+
+
+class ref_purok(models.Model):
+    id = models.AutoField(primary_key=True);
+    name = models.CharField(max_length=50, default="", blank=False, null=False);
+    president = models.CharField(max_length=50, default="", blank=True, null=True);
+    barangay = models.ForeignKey(ref_barangay, related_name="ref_barangay_id", on_delete=models.CASCADE, blank=False, null=False);
+    pass;
 
 class family_Background(models.Model):
     fb_fk = models.ForeignKey(personal_Info, on_delete=models.CASCADE)
